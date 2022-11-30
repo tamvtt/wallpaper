@@ -36,11 +36,27 @@ router.get('/', function(req, res, next) {
   console.log(req.body)
 });
 
+router.get('/home', function(req, res, next) {
+  const Img = mongoose.model('Image', Image);
+
+  const PAGE_SIZE = 5;
+  var page = req.query.page;
+  page = parseInt(page);
+  if (page < 1) {
+    page = 1;
+  }
+  var skip = (page - 1)*PAGE_SIZE;
+
+  Img.find({}).skip(skip).limit(5).then(data => {
+    res.render('lists', { title: 'Home', data: data });
+  })
+});
+
 router.get('/list', function(req, res, next) {
   const Img = mongoose.model('Image', Image);
 
   Img.find({}).then(data => {
-    res.render('lists', { title: 'List', data: data });
+    res.json(data);
   })
 });
 
