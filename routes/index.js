@@ -56,7 +56,7 @@ router.get('/list', function(req, res, next) {
   const Img = mongoose.model('Image', Image);
 
   Img.find({}).then(data => {
-    res.json(data);
+    res.json({data: data});
   })
 });
 
