@@ -5,6 +5,8 @@ const path = require("path")
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
+const fetch = require('node-fetch');
+const request = require('request');
 
 const uri = "mongodb+srv://tamvt:CIg65aKTZxz4zsq4@cluster0.zkfrmhr.mongodb.net/?retryWrites=true&w=majority"
 router.use(bodyParser.urlencoded({ extended: false }));
@@ -36,7 +38,7 @@ router.get('/', function(req, res, next) {
   console.log(req.body)
 });
 
-router.get('/home', function(req, res, next) {
+router.get('/home', async function (req, res, next) {
   const Img = mongoose.model('Image', Image);
 
   const PAGE_SIZE = 5;
@@ -52,11 +54,19 @@ router.get('/home', function(req, res, next) {
   })
 });
 
-router.get('/list', function(req, res, next) {
+router.get('/api', function(req, res, next) {
   const Img = mongoose.model('Image', Image);
 
-  Img.find({}).then(data => {
-    res.json({data: data});
+  const PAGE_SIZE = 5;
+  var page = req.query.page;
+  page = parseInt(page);
+  if (page < 1) {
+    page = 1;
+  }
+  var skip = (page - 1)*PAGE_SIZE;
+
+  Img.find({}).skip(skip).limit(5).then(data => {
+    res.end(JSON.stringify({data: data}));
   })
 });
 

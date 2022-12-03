@@ -66,5 +66,13 @@
             </nav>
         </div>
     </div>
+    <script !src="">
+        fetchData = async () => {
+            const response = await fetch("http://localhost:3000/api");
+            const json = await response.json();
+            console.log(json);
+        };
+        fetchData();
+    </script>
 </body>
 </html>
