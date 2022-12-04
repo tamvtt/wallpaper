@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Wallpaper</title>
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="px-lg-5">
+
+            <!-- For demo purpose -->
+            <div class="row py-5">
+                <div class="col-lg-12 mx-auto">
+                    <div class="text-white p-5 shadow-sm rounded banner">
+                        <h1 class="display-4"><%= title %></h1>
+                    </div>
+                </div>
+            </div>
+            <!-- End -->
+
+            <div class="row">
+                <!-- Gallery item -->
+                <% for(var i=0; i<data.length; i++) {%>
+                    <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                        <div class="bg-white rounded shadow-sm w-100 h-100">
+                            <a href="/detail/<%= data[i]._id %>">
+                                <img src="uploads/<%= data[i].url_l %>" alt="" class="img-fluid card-img">
+                            </a>
+                            <a href="/delete/<%= data[i]._id %>" class="fs-3">xóa</a>
+                        </div>
+                    </div>
+                <% } %>
+                <!-- End -->
+            </div>
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="/home?page=1">1</a></li>
+                    <li class="page-item"><a class="page-link" href="/home?page=2">2</a></li>
+<!--                    <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+                    <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</body>
+</html>

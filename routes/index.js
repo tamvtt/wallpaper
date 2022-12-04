@@ -92,13 +92,26 @@ router.get('/detail/:id', function(req, res, next) {
   })
 });
 
+router.get('/show', async function (req, res, next) {
+  const Img = mongoose.model('Image', Image);
+
+  const PAGE_SIZE = 5;
+  var page = req.query.page;
+  page = parseInt(page);
+  if (page < 1) {
+    page = 1;
+  }
+  var skip = (page - 1)*PAGE_SIZE;
+
+  Img.find({}).skip(skip).limit(5).then(data => {
+    res.render('delete', { title: 'Home', data: data });
+  })
+});
+
 router.get('/delete/:id', async function (req, res) {
   const Img = mongoose.model('Image', Image);
 
   Img.deleteOne({_id: req.params.id}).then(data => {
-    res.status(200).json({
-      message: "ok"
-    })
     if (data != null) res.send("Delete thành công~!!!!")
   })
 })
