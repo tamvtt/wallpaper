@@ -26,7 +26,12 @@ async function connect() {
 connect();
 
 const Image = new mongoose.Schema({
-  url: String,
+  url_t: String,
+  height_t: Number,
+  width_t: Number,
+  url_l: String,
+  height_l: Number,
+  width_l: Number,
   describe: String,
   title: String,
   date: String
@@ -35,7 +40,6 @@ const Image = new mongoose.Schema({
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
-  console.log(req.body)
 });
 
 router.get('/home', async function (req, res, next) {
@@ -54,7 +58,7 @@ router.get('/home', async function (req, res, next) {
   })
 });
 
-router.get('/api', function(req, res, next) {
+router.get('/api', async function(req, res, next) {
   const Img = mongoose.model('Image', Image);
 
   const PAGE_SIZE = 5;
@@ -65,9 +69,7 @@ router.get('/api', function(req, res, next) {
   }
   var skip = (page - 1)*PAGE_SIZE;
 
-  Img.find({}).skip(skip).limit(5).then(data => {
-    res.end(JSON.stringify({data: data}));
-  })
+  await Img.find({}).skip(skip).limit(5).then(data => res.status(200).send(data))
 });
 
 router.get('/upload', function(req, res, next) {
@@ -90,10 +92,13 @@ router.get('/detail/:id', function(req, res, next) {
   })
 });
 
-router.get('/delete/:id', function (req, res) {
+router.get('/delete/:id', async function (req, res) {
   const Img = mongoose.model('Image', Image);
 
   Img.deleteOne({_id: req.params.id}).then(data => {
+    res.status(200).json({
+      message: "ok"
+    })
     if (data != null) res.send("Delete thành công~!!!!")
   })
 })
@@ -126,15 +131,26 @@ const upload = multer({
 })
 
 router.post('/insert', upload.single('avatar'), function (req, res, next) {
+  console.log(req.file)
   const describe = req.body.describe;
   const title = req.body.title;
   const d = new Date();
   const date = `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
   const img = mongoose.model('Image', Image);
-  const url = req.file.filename;
+  const url_t = req.file.filename;
+  const url_l = req.file.filename;
+  const height_t = 100;
+  const width_t = 100;
+  const height_l = 300;
+  const width_l = 300;
 
   const Img = new img({
-    url: url,
+    url_t: url_t,
+    height_t: height_t,
+    width_t: width_t,
+    url_l: url_l,
+    height_l: height_l,
+    width_l: width_l,
     describe: describe,
     title: title,
     date: date
@@ -154,11 +170,21 @@ router.put('/update/:id', upload.single('avatar'), function (req, res, next) {
   const title = req.body.title;
   const d = new Date();
   const date = `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
-  const url = req.file.filename;
+  const url_t = req.file.filename;
+  const url_l = req.file.filename;
+  const height_t = 100;
+  const width_t = 100;
+  const height_l = 300;
+  const width_l = 300;
   const Img = mongoose.model('Image', Image);
 
   Img.updateOne({_id: req.params.id}, {
-    url: url,
+    url_t: url_t,
+    height_t: height_t,
+    width_t: width_t,
+    url_l: url_l,
+    height_l: height_l,
+    width_l: width_l,
     describe: describe,
     title: title,
     date: date

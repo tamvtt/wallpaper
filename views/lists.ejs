@@ -41,9 +41,9 @@
                 <!-- Gallery item -->
                 <% for(var i=0; i<data.length; i++) {%>
                     <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
-                        <div class="bg-white rounded shadow-sm">
+                        <div class="bg-white rounded shadow-sm w-100 h-100">
                             <a href="/detail/<%= data[i]._id %>">
-                                <img src="uploads/<%= data[i].url %>" alt="" class="img-fluid card-img">
+                                <img src="uploads/<%= data[i].url_l %>" alt="" class="img-fluid card-img">
                             </a>
                         </div>
                     </div>
@@ -66,13 +66,5 @@
             </nav>
         </div>
     </div>
-    <script !src="">
-        fetchData = async () => {
-            const response = await fetch("https://wallpaper-y91e.vercel.app/api");
-            const json = await response.json();
-            console.log(json);
-        };
-        fetchData();
-    </script>
 </body>
 </html>
